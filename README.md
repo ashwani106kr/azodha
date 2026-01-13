@@ -12,6 +12,7 @@ def health():
 @app.get("/predict")
 def predict():
     return JSONResponse(content={"score": 0.75})
+
 fastapi
 uvicorn
 
@@ -40,7 +41,6 @@ HEALTHCHECK --interval=30s --timeout=3s \
   CMD python -c "import requests; requests.get('http://localhost:8000/health')" || exit 1
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
-
 
 apiVersion: apps/v1
 kind: Deployment
@@ -83,7 +83,6 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 10
 
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -95,7 +94,6 @@ spec:
     - port: 80
       targetPort: 8000
   type: ClusterIP
-
 name: CI-CD
 
 on:
@@ -148,4 +146,3 @@ jobs:
         run: |
           aws eks update-kubeconfig --name prod-cluster
           kubectl apply -f k8s/
-
